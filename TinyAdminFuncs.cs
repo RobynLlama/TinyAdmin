@@ -15,9 +15,13 @@ namespace TinyAdmin
             {
                 //This was for debugging, hitting the log this much in one frame might be too much
                 //Plugin.Log.LogInfo($"[{player_id}] {player.playerUsername}");
+
+                
                 pList.Add(player_id, player.playerUsername);
                 player_id++;
             }
+
+            Plugin.Log.LogInfo($"We found {pList.Count} player objects");
 
             return pList;
         }
