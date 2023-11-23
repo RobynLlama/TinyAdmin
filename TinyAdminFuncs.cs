@@ -21,8 +21,6 @@ namespace TinyAdmin
                 player_id++;
             }
 
-            Plugin.Log.LogInfo($"We found {pList.Count} player objects");
-
             return pList;
         }
 

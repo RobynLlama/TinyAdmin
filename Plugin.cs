@@ -17,13 +17,13 @@ namespace TinyAdmin
         private readonly Harmony harmony = new Harmony(PluginInfo.PLUGIN_GUID);
         public static ManualLogSource Log;
 
-        internal static AdminMenu myGUI;
         internal static GameObject myGUIObject;
 
         internal static Plugin Instance;
 
         internal bool adminMenuOpen = false;
         internal bool canOpenAdminMenu = false;
+        internal bool menuExists = false;
 
         private void Awake()
         {

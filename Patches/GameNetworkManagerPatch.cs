@@ -19,11 +19,17 @@ namespace TinyAdmin.Patches
         [HarmonyPrefix]
         public static void lobbyCreatedPatch()
         {
-            Plugin.myGUIObject = new UnityEngine.GameObject("AdminGUI");
-            UnityEngine.Object.DontDestroyOnLoad(Plugin.myGUIObject);
-            Plugin.myGUIObject.hideFlags = HideFlags.HideAndDontSave;
-            Plugin.myGUIObject.AddComponent<AdminMenu>();
-            Plugin.myGUI = (AdminMenu)Plugin.myGUIObject.GetComponent("AdminGUI");
+            if (!Plugin.Instance.menuExists)
+            {
+                Plugin.Log.LogInfo("GUI didn't exist, creating");
+                Plugin.myGUIObject = new UnityEngine.GameObject("AdminGUI");
+                UnityEngine.Object.DontDestroyOnLoad(Plugin.myGUIObject);
+                Plugin.myGUIObject.hideFlags = HideFlags.HideAndDontSave;
+                Plugin.myGUIObject.AddComponent<AdminMenu>();
+                //Plugin.myGUI = (AdminMenu)Plugin.myGUIObject.GetComponent("AdminGUI");
+                Plugin.Instance.menuExists = true;
+            }
+
             Plugin.Instance.canOpenAdminMenu = true;
             
 
