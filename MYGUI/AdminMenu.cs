@@ -10,9 +10,8 @@ namespace TinyAdmin.MYGUI
 {
     internal class AdminMenu : MonoBehaviour
     {
-        private bool isMenuOpen;
-        private bool wasKeyUp;
-        private KeyboardShortcut openCloseMenu;
+        public bool isMenuOpen;
+
 
         private float MENUWIDTH = 800;
         private float MENUHEIGHT = 400;
@@ -33,8 +32,6 @@ namespace TinyAdmin.MYGUI
         private void Awake()
         {
             isMenuOpen = false;
-            wasKeyUp = true;
-            openCloseMenu = new KeyboardShortcut(KeyCode.Escape);
             MENUWIDTH = Screen.width / 6;
             MENUHEIGHT = Screen.width / 4;
             ITEMWIDTH = MENUWIDTH / 1.2f;
@@ -54,26 +51,7 @@ namespace TinyAdmin.MYGUI
 
         }
 
-        private void Update()
-        {
-            if (openCloseMenu.IsUp())
-            {
-                if (!wasKeyUp)
-                {
-                    wasKeyUp = true;
-                }
-
-            }
-            if (openCloseMenu.IsDown())
-            {
-                if (wasKeyUp)
-                {
-                    wasKeyUp = false;
-                    isMenuOpen = !isMenuOpen;
-                }
-            }
-           
-        }
+      
 
         private Texture2D MakeTex(int width, int height, Color col)
         {
@@ -124,8 +102,8 @@ namespace TinyAdmin.MYGUI
         private void OnGUI()
         {
             if(menuStyle == null) { IntitializeMenu(); }
-            
-            if(isMenuOpen)
+            if(!Plugin.Instance.canOpenAdminMenu) { return; }
+            if(Plugin.Instance.adminMenuOpen)
             {
                 GUI.Box(new Rect(MENUX, MENUY, MENUWIDTH, MENUHEIGHT), "TinyAdmin Kick Menu", menuStyle);
                 scrollPosition = GUI.BeginScrollView(new Rect(MENUX, MENUY + 30, MENUWIDTH, MENUHEIGHT - 50), scrollPosition, new Rect(MENUX, scrollStart, ITEMWIDTH, AdminTools.GetAllPlayers().Count * 30), false, true, hScrollStyle, vScrollStyle);

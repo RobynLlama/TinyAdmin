@@ -18,13 +18,24 @@ namespace TinyAdmin
         public static ManualLogSource Log;
 
         internal static AdminMenu myGUI;
+        internal static GameObject myGUIObject;
+
+        internal static Plugin Instance;
+
+        internal bool adminMenuOpen = false;
+        internal bool canOpenAdminMenu = false;
 
         private void Awake()
         {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
             // Plugin startup logic
             Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
             Log = Logger;
             harmony.PatchAll(typeof(GameNetworkManagerPatch));
+            harmony.PatchAll(typeof(QuickMenuManagerPatch));
 
         }
 

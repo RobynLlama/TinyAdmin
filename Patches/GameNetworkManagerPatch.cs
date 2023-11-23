@@ -19,33 +19,15 @@ namespace TinyAdmin.Patches
         [HarmonyPrefix]
         public static void lobbyCreatedPatch()
         {
-            GameObject currentGUI = new UnityEngine.GameObject("AdminGUI");
-            UnityEngine.Object.DontDestroyOnLoad(currentGUI);
-            currentGUI.hideFlags = HideFlags.HideAndDontSave;
-            currentGUI.AddComponent<AdminMenu>();
-            Plugin.myGUI = (AdminMenu)currentGUI.GetComponent("AdminGUI");
+            Plugin.myGUIObject = new UnityEngine.GameObject("AdminGUI");
+            UnityEngine.Object.DontDestroyOnLoad(Plugin.myGUIObject);
+            Plugin.myGUIObject.hideFlags = HideFlags.HideAndDontSave;
+            Plugin.myGUIObject.AddComponent<AdminMenu>();
+            Plugin.myGUI = (AdminMenu)Plugin.myGUIObject.GetComponent("AdminGUI");
+            Plugin.Instance.canOpenAdminMenu = true;
+            
 
             Plugin.Log.LogInfo("GUI Created");
-
-        }
-
-        [HarmonyPatch(nameof(GameNetworkManager.LeaveCurrentSteamLobby))]
-        [HarmonyPostfix]
-        public static void lobbyDestroyPatch()
-        {
-            // couldn't find anything good to patch in the game network manager //
-
-            // this does not work here and will prevent the user from quitting
-
-            //Plugin.Log.LogInfo("Disconnecting, GUI Destroyed");
-            
-            /*
-            if(Plugin.myGUI != null)
-            {
-                GameObject.Destroy(Plugin.myGUI.gameObject);
-            }
-            */
-
 
         }
     }
